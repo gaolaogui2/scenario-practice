@@ -139,3 +139,5 @@ class GPromise {
     });
   }
 }
+
+export { GPromise };

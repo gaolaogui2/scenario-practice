@@ -73,3 +73,5 @@ function spawn(genFn) {
     step(() => gen.next());
   });
 }
+
+export { spawn };

@@ -2,7 +2,7 @@ const curry = (fn) => {
   const len = fn.length;
   return function curried(...args) {
     if (args.length >= len) {
-      fn.apply(this, args);
+      return fn.apply(this, args);
     } else {
       return function (...nextArgs) {
         return curried.apply(this, [...args, ...nextArgs]);
@@ -24,3 +24,5 @@ console.log(curriedAdd(1)(2)(3)); // 6
 console.log(curriedAdd(1, 2)(3)); // 6
 console.log(curriedAdd(1)(2, 3)); // 6
 console.log(curriedAdd(1, 2, 3)); // 6
+
+export { curry };
