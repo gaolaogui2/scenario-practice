@@ -3,7 +3,7 @@
  * .add 要返回 Promise
  */
 
-class Schedular {
+class Scheduler {
   concurrencyLimit = 0;
   runningCount = 0;
   taskQueue = [];
@@ -43,4 +43,22 @@ class Schedular {
   }
 }
 
-export { Schedular };
+const createTask = (id, duration) => {
+  return () =>
+    new Promise((resolve) => {
+      console.log(`任务${id} 开始`);
+      setTimeout(() => {
+        console.log(`任务${id} 完成`);
+        resolve(`任务${id} 结果`);
+      }, duration);
+    });
+};
+
+const scheduler = new Scheduler(2);
+
+scheduler.add(createTask(1, 1000));
+scheduler.add(createTask(2, 1000));
+scheduler.add(createTask(3, 1000));
+scheduler.add(createTask(4, 1000));
+
+export { Scheduler };
