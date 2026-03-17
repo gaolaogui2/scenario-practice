@@ -147,15 +147,15 @@ class TaskScheduler {
       await Promise.all(childrenTask.map((name) => execute(name)));
     };
 
-    const initialTask = [];
+    const initialTasks = [];
 
     for (const [name, count] of remainingDeps) {
       if (count === 0) {
-        initialTask.push(name);
+        initialTasks.push(name);
       }
     }
 
-    await Promise.all(initialTask.map((name) => execute(name)));
+    await Promise.all(initialTasks.map((name) => execute(name)));
   }
 }
 
