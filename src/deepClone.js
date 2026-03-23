@@ -1,34 +1,32 @@
-function deepClone(target, hash = new WeakMap()) {
+function deepClone(target) {
   if (typeof target !== "object" || target === null) {
     return target;
   }
 
+  const hash = new WeakMap();
   const res = Array.isArray(target) ? [] : {};
 
-  hash.set(target, res);
-  function clone(originObj, newObj) {
-    for (let key in originObj) {
-      if (!Object.prototype.hasOwnProperty.call(originObj, key)) {
+  function clone(origin, result) {
+    for (const key in origin) {
+      if (!Object.prototype.hasOwnProperty(key)) {
         continue;
       }
-      const currentVal = originObj[key];
+      const currentVal = origin[key];
       if (typeof currentVal !== "object" || currentVal === null) {
-        newObj[key] = currentVal;
-      } else {
-        if (hash.has(currentVal)) {
-          newObj[key] = hash.get(currentVal);
-          continue;
-        }
-        if (Array.isArray(currentVal)) {
-          newObj[key] = [];
-        } else {
-          newObj[key] = {};
-        }
-        hash.set(currentVal, newObj[key]); // 提前保存
-        clone(currentVal, newObj[key]);
+        result[key] = currentVal;
+        continue;
       }
+      if (hash.has(currentVal)) {
+        result[key] = hash.get(currentVal);
+        continue;
+      }
+      result[key] = Array.isArray(currentVal) ? [] : {};
+      hash.set(currentVal, result[key]);
+      clone(currentVal, result[key]);
     }
   }
+
+  hash.set(target, res);
   clone(target, res);
   return res;
 }

@@ -1,13 +1,13 @@
 const curry = (fn) => {
-  const len = fn.length;
+  const { length } = fn;
+
   return function curried(...args) {
-    if (args.length >= len) {
-      return fn.apply(this, args);
-    } else {
-      return function (...nextArgs) {
-        return curried.apply(this, [...args, ...nextArgs]);
-      };
+    if (args.length >= length) {
+      return fn.call(this, ...args);
     }
+    return function (...nextArgs) {
+      return curried.call(this, ...args, ...nextArgs);
+    };
   };
 };
 
